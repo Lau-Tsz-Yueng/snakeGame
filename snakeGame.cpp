@@ -144,11 +144,12 @@ int main()
         }
 
         // 更新蛇的位置
-        for (int i = snake.size() - 1; i > 0; i--) {
+        for (int i = snakeSize - 1; i > 0; i--) {
             snake[i].setPosition(snake[i - 1].getPosition());
         }
         snake[0].move(dx, dy);
-        cout << snakeSize << endl;
+
+        cout << "My Current Length is: " << snakeSize << endl;
 
         // 检测蛇是否吃到食物
         if (snake[0].getGlobalBounds().intersects(food.getGlobalBounds())) {
@@ -163,8 +164,25 @@ int main()
             snake.push_back(tmpSegment);
         }
         // 检测蛇是否撞墙
+        for (auto &tmp : wall.walls) {
+            if (snake[0].getGlobalBounds().intersects(tmp.getGlobalBounds())) {
+                cout << "GAME OVER!" << endl;
+                cout << "YOUR MAXIMUM LENGTH IS : " << snakeSize << endl;
+                window.close();
+            }
+        }
+
 
         // 检测蛇是否咬到自己
+        for (int i = 1; i < snakeSize; ++i)
+        {
+            if (snake[0].getGlobalBounds().intersects(snake[i].getGlobalBounds()))
+            {
+                cout << "GAME OVER!" << endl;
+                cout << "YOUR MAXIMUM LENGTH IS : " << snakeSize << endl;
+                window.close();
+            }
+        }
 
         // 渲染
         window.clear();
