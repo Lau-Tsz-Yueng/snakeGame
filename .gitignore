@@ -1,0 +1,9 @@
+# Object files
+*.o
+
+# Executable files
+snakeGame
+
+# Other
+*.swp
+.DS_Store
