@@ -10,3 +10,6 @@ game
 
 # vsCode dunnos
 .vscode/
+
+# Do not ignore the .gitignore file in res directory
+!/res/.gitignore
