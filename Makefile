@@ -2,16 +2,16 @@
 CXX = g++
 
 # Specify the compiler flags
-CXXFLAGS = -std=c++17 -I /opt/homebrew/Cellar/sfml/2.6.0/include
+CXXFLAGS = -std=c++17 -Iinclude -I/opt/homebrew/Cellar/sfml/2.6.0/include
 
 # Specify the linker flags
-LDFLAGS = -L /opt/homebrew/Cellar/sfml/2.6.0/lib -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -L/opt/homebrew/Cellar/sfml/2.6.0/lib -lsfml-graphics -lsfml-window -lsfml-system
 
 # Specify the target file
-TARGET = snakeGame
+TARGET = game
 
 # Specify the source files
-SOURCES = snakeGame.cpp
+SOURCES = src/main.cpp src/Wall.cpp src/Food.cpp
 
 # Specify the object files
 OBJECTS = $(SOURCES:.cpp=.o)

@@ -1,8 +1,10 @@
+// main.cpp
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <deque>
 #include <iostream>
-#include <random>
+#include "Wall.h"
+#include "Food.h"
 
 #define WINDOW_SIZE_WIDTH 800
 #define WINDOW_SIZE_HEIGHT 600
@@ -17,65 +19,6 @@ enum Direction {
     DOWN,
     LEFT,
     RIGHT
-};
-
-class Wall {
-public:
-    void createWalls() {
-        RectangleShape wallSegment(Vector2f(CUBE_SIZE, CUBE_SIZE));
-        wallSegment.setFillColor(Color::Blue);
-
-        for (int x = 0; x < WINDOW_SIZE_WIDTH; x += CUBE_SIZE) {
-            wallSegment.setPosition(x, 0);
-            walls.push_back(wallSegment);
-            wallSegment.setPosition(x, WINDOW_SIZE_HEIGHT - CUBE_SIZE);
-            walls.push_back(wallSegment);
-        }
-
-        for (int y = 0; y < WINDOW_SIZE_HEIGHT; y += CUBE_SIZE) {
-            wallSegment.setPosition(0, y);
-            walls.push_back(wallSegment);
-            wallSegment.setPosition(WINDOW_SIZE_WIDTH - CUBE_SIZE, y);
-            walls.push_back(wallSegment);
-        }
-    }
-    vector<RectangleShape> walls;
-};
-
-class Food {
-public:
-    RectangleShape food;
-    Food() {
-        food.setSize(Vector2f(CUBE_SIZE, CUBE_SIZE));
-        food.setFillColor(Color::Red);
-        srand(time(0));
-        int x_coordinate;
-        int y_coordinate;
-    }
-
-    int createRandomNumber(int from, int end) {
-        std::random_device rd;  // 用于获取随机数的随机数生成器
-        std::mt19937 mt(rd());  // 用Mersenne Twister算法初始化随机数生成器
-        std::uniform_int_distribution<int> dist(from, end);  // 定义一个范围从10到20的分布
-        return dist(mt);
-    }
-
-    void resetFoodPosition() {
-        // set random position for food
-        int x_axis = createRandomNumber(CUBE_SIZE * 2, WINDOW_SIZE_WIDTH - CUBE_SIZE * 2);
-        int y_axis = createRandomNumber(CUBE_SIZE * 2, WINDOW_SIZE_HEIGHT - CUBE_SIZE * 2);
-
-        // make sure the position is a multiple of CUBE_SIZE
-        x_axis = x_axis - (x_axis % CUBE_SIZE);
-        y_axis = y_axis - (y_axis % CUBE_SIZE);
-        // cout << x_axis << " " << y_axis << endl;
-
-        this->food.setPosition(x_axis, y_axis);
-    }
-
-    RectangleShape getFood() {
-        return food;
-    }
 };
 
 int main()
@@ -149,13 +92,14 @@ int main()
         }
         snake[0].move(dx, dy);
 
-        cout << "My Current Length is: " << snakeSize << endl;
-
         // 检测蛇是否吃到食物
         if (snake[0].getGlobalBounds().intersects(food.getGlobalBounds())) {
             // reset food position in random manner
             foodObj.resetFoodPosition();
             food = foodObj.getFood();
+
+            // print messages:
+            cout << "My Current Length is: " << snakeSize << endl;
 
             // 添加新的一段到蛇的末尾
             RectangleShape tmpSegment(Vector2f(CUBE_SIZE, CUBE_SIZE));

@@ -2,8 +2,11 @@
 *.o
 
 # Executable files
-snakeGame
+game
 
 # Other
 *.swp
 .DS_Store
+
+# vsCode dunnos
+.vscode/
