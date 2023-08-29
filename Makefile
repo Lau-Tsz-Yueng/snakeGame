@@ -11,18 +11,18 @@ LDFLAGS = -L/opt/homebrew/Cellar/sfml/2.6.0/lib -lsfml-graphics -lsfml-window -l
 TARGET = game
 
 # Specify the source files
-SOURCES = src/main.cpp src/Wall.cpp src/Food.cpp
+SOURCES = src/*.cpp
 
 # Specify the object files
-OBJECTS = $(SOURCES:.cpp=.o)
+OBJECTS = $(patsubst src/%.cpp, res/%.o, $(wildcard $(SOURCES)))
 
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
 
-%.o: %.cpp
+res/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f res/*.o $(TARGET)
